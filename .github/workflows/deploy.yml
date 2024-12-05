@@ -23,6 +23,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@your-ec2-public-ip << 'EOF'
         cd /home/ec2-user/ForGithubAction
         git pull origin main
-        # 必要なコマンドをここに追加
+        # 必要なコマンドをここに追加(EOFの手前まで)
         EOF
 
