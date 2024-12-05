@@ -27,6 +27,6 @@ jobs:
         git config --global user.email "ncore1400@gmail.com"
         git config --global credential.helper store
         cd /home/ec2-user/ForGithubAction
-        echo "https://your-username:${ACCESS_TOKEN}@github.com" > ~/.git-credentials
+        echo "https://nzktmhr:${ACCESS_TOKEN}@github.com/nzktmhr/github-actions-sample.git" > ~/.git-credentials
         git pull origin main
         EOF
