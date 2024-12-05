@@ -20,7 +20,7 @@ jobs:
 
     - name: Connect to EC2 and run commands
       run: |
-        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@your-ec2-public-ip << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@ec2-54-238-41-185.ap-northeast-1.compute.amazonaws.com << 'EOF'
         cd /home/ec2-user/ForGithubAction
         git pull origin main
         # 必要なコマンドをここに追加(EOFの手前まで)
