@@ -22,7 +22,7 @@ jobs:
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
-        ssh -t -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@ec2-54-238-41-185.ap-northeast-1.compute.amazonaws.com << 'EOF'
+        ssh -t -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@ec2-35-77-101-1.ap-northeast-1.compute.amazonaws.com << 'EOF'
         git config --global user.name "nzktmhr"
         git config --global user.email "ncore1400@gmail.com"
         git config --global credential.helper store
