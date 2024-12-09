@@ -1,32 +1,32 @@
-name: Deploy to EC2
+name: Deploy to EC2    # ワークフロー名を定義
 
 on:
   push:
     branches:
-      - main
+      - main          # mainブランチに対するプッシュイベントをトリガーとする
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    # deployというジョブを定義。このジョブはGithub Actionsのホストランナー環境の最新のUbuntuで実行
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3  # リポジトリの最新のコードを取得(チェックアウト)
 
     - name: Set up SSH
       run: |
-        echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem
-        chmod 400 ec2-key.pem
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2-key.pem  # 秘密鍵を取得して、ファイルに保存
+        chmod 400 ec2-key.pem                            # 秘密鍵ファイルの権限を所有者だけが読み取り可能に設定(セキュリティ対策)
 
     - name: Connect to EC2 and run commands
       env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}        # EC2インスタンスにSSH接続してコマンドを実行
       run: |
-        ssh -t -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@ec2-35-77-101-1.ap-northeast-1.compute.amazonaws.com << 'EOF'
+        ssh -t -o StrictHostKeyChecking=no -i ec2-key.pem ec2-user@ec2-35-77-101-1.ap-northeast-1.compute.amazonaws.com << 'EOF'  # -t:仮想端末を確保、-o StrictHostKeyChecking=no:ホストキー確認をスキップ、-i ec2-key.pem:使用する秘密鍵ファイルを指定
         git config --global user.name "nzktmhr"
         git config --global user.email "ncore1400@gmail.com"
-        git config --global credential.helper store
-        cd /home/ec2-user/ForGithubAction
-        echo "https://nzktmhr:${ACCESS_TOKEN}@github.com/nzktmhr/github-actions-sample.git" > ~/.git-credentials
-        git pull origin main
-        EOF
+        git config --global credential.helper store          # 資格情報をファイルに保存して再利用できるようにする
+        cd /home/ec2-user/ForGithubAction                    # 作業ディレクトリを変更
+        echo "https://nzktmhr:${ACCESS_TOKEN}@github.com/nzktmhr/github-actions-sample.git" > ~/.git-credentials  # Gitの資格情報を保存するためにgit-credentialsファイルを作成し、リポジトリのURLとアクセストークンを記載
+        git pull origin main      # mainブランチをリモートからプルする
+        EOF                       # SSHセッションのコマンド入力を終了
